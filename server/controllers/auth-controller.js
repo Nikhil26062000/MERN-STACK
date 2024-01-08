@@ -44,10 +44,11 @@ const Register = async (req, res) => {
 
     //if user is not present then creating the document and storing in collection
 
-    await User.create({ username, email, password, phone });
+    const userCreated = await User.create({ username, email, password, phone });
 
     const data = req.body;
-    res.status(200).json(data);
+    res.status(200).json({ data, token: await userCreated.generateToken(),userId:userCreated._id.toString() });
+    console.log({token:await userCreated.generateToken()})
   } catch (error) {
     console.log(error);
   }
