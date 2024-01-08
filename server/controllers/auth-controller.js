@@ -69,8 +69,10 @@ const login = async (req,res) => {
       return res.status(400).send('Invalid Credentials');
     }
 
+    //? i made a function in user-model and there i compare the password.i can directly compare here also using compare()
     // const isPasswordValid = await bcrypt.compare(password,userExist.password);
 
+    //In this way also we are comparing password
     const isPasswordValid = userExist.comparePassword(password);
 
     if(isPasswordValid){
