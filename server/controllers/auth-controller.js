@@ -1,5 +1,5 @@
-
-const User = require('../models/user-model');
+const User = require("../models/user-model");
+const bcrypt = require("bcryptjs");
 
 // ?Controllers for Home Page
 //----------------------------------
@@ -19,29 +19,38 @@ const Home = async (req, res) => {
 //-----------------------------------
 const Register = async (req, res) => {
   try {
-    console.log(req.body);
-
     //destructuring the  value from body .
     //here we are using Postman API instead of frontend for registration.
-    const {username,email,password,phone} = req.body;
-    
-    //Checking if the user is already in database 
+    const { username, email, password, phone } = req.body;
+
+    //Checking if the user is already in database
     //if present then returning via if() condition
-    const existingUser = await User.findOne({email:email});
-    if(existingUser)
-    {
+    const existingUser = await User.findOne({ email: email });
+    if (existingUser) {
       return res.status(400).json("User already exist");
     }
 
-    //if user is not present then creating the document and storing in collection
-    await User.create({username,email,password,phone});
+    /*
 
-    res
-      .status(200)
-      .json({mes:req.body});
+  ? We will use bcrypt to hash our password , so that it can be stored secure. This is one way we can secure our password . after storing the hashed password in hashPassword variable we can just pass the variable to the place of password . 
+
+  ?Another way is used in user-model.js file
+  //!encrypting the password using bycrypt
+      const saltRound = 10;
+    const hashPassword = await bcrypt.hash(password, saltRound);
+    await User.create({username,email,password:hashPassword,phone});
+
+  */
+
+    //if user is not present then creating the document and storing in collection
+
+    await User.create({ username, email, password, phone });
+
+    const data = req.body;
+    res.status(200).json(data);
   } catch (error) {
     console.log(error);
   }
 };
 
-module.exports = { Home ,Register};
+module.exports = { Home, Register };
