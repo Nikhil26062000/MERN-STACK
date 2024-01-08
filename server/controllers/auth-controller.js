@@ -2,7 +2,8 @@ const User = require("../models/user-model");
 const bcrypt = require("bcryptjs");
 
 // ?Controllers for Home Page
-//----------------------------------
+//?-------------------------------------------------
+
 const Home = async (req, res) => {
   try {
     res
@@ -16,7 +17,8 @@ const Home = async (req, res) => {
 };
 
 //? Controller for Registration page
-//-----------------------------------
+//?---------------------------------------------------
+
 const Register = async (req, res) => {
   try {
     //destructuring the  value from body .
@@ -54,4 +56,35 @@ const Register = async (req, res) => {
   }
 };
 
-module.exports = { Home, Register };
+// ?Contollers for Login
+// ?---------------------------------------------------
+
+const login = async (req,res) => {
+  try {
+    const {email,password} = req.body;
+
+    const userExist = await User.findOne({email});
+
+    if(!userExist) {
+      return res.status(400).send('Invalid Credentials');
+    }
+
+    const user = await bcrypt.compare(password,userExist.password);
+
+    if(user){
+      res.status(200).json({
+        msg:"Login Successful",
+        token:await userExist.generateToken(),
+        userId:userExist._id.toString(),
+      });
+    }else{
+      res.status(401).json({
+        message: "Invalid Cred",
+      })
+    }
+  } catch (error) {
+    res.status(500).json("Internal server error");
+  }
+}
+
+module.exports = { Home, Register, login };
