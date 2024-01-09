@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const router = require("./router/auth-router");
 const connectDb = require("./utils/db");
+const errorMiddleware = require('./middleware/error-middleware');
 
 //?Middleware
 app.use(express.json()); //parses incoming requests with JSON payloads
@@ -21,6 +22,10 @@ app.use("/api/auth", router);
 // app.get("/register",(req,res)=>{
 //     res.status(200).send("This is Registration page");
 // })
+
+
+//? callig errorMiddleware just before starting the server .Its compulsory to call this middleware
+app.use(errorMiddleware);
 
 connectDb().then(() => {
   const PORT = 5000;
