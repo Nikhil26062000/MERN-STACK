@@ -49,8 +49,14 @@ const Register = async (req, res) => {
     const userCreated = await User.create({ username, email, password, phone });
 
     const data = req.body;
-    res.status(200).json({ data, token: await userCreated.generateToken(),userId:userCreated._id.toString() });
-    console.log({token:await userCreated.generateToken()})
+    res
+      .status(200)
+      .json({
+        data,
+        token: await userCreated.generateToken(),
+        userId: userCreated._id.toString(),
+      });
+    console.log({ token: await userCreated.generateToken() });
   } catch (error) {
     console.log(error);
   }
@@ -59,14 +65,14 @@ const Register = async (req, res) => {
 // ?Contollers for Login
 // ?---------------------------------------------------
 
-const login = async (req,res) => {
+const login = async (req, res) => {
   try {
-    const {email,password} = req.body;
+    const { email, password } = req.body;
 
-    const userExist = await User.findOne({email});
+    const userExist = await User.findOne({ email });
 
-    if(!userExist) {
-      return res.status(400).send('Invalid Credentials');
+    if (!userExist) {
+      return res.status(400).send("Invalid Credentials");
     }
 
     //? i made a function in user-model and there i compare the password.i can directly compare here also using compare()
@@ -75,20 +81,20 @@ const login = async (req,res) => {
     //In this way also we are comparing password
     const isPasswordValid = userExist.comparePassword(password);
 
-    if(isPasswordValid){
+    if (isPasswordValid) {
       res.status(200).json({
-        msg:"Login Successful",
-        token:await userExist.generateToken(),
-        userId:userExist._id.toString(),
+        msg: "Login Successful",
+        token: await userExist.generateToken(),
+        userId: userExist._id.toString(),
       });
-    }else{
+    } else {
       res.status(401).json({
         message: "Invalid Cred",
-      })
+      });
     }
   } catch (error) {
     res.status(500).json("Internal server error");
   }
-}
+};
 
 module.exports = { Home, Register, login };
