@@ -79,13 +79,15 @@ const login = async (req, res) => {
     // const isPasswordValid = await bcrypt.compare(password,userExist.password);
 
     //In this way also we are comparing password
-    const isPasswordValid = userExist.comparePassword(password);
+    const user = await userExist.comparePassword(password);
+    console.log(user);
 
-    if (isPasswordValid) {
+    if (user) {
       res.status(200).json({
         msg: "Login Successful",
         token: await userExist.generateToken(),
         userId: userExist._id.toString(),
+        info:userExist.username,
       });
     } else {
       res.status(401).json({
