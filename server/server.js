@@ -2,16 +2,20 @@
 require('dotenv').config();
 const express = require("express");
 const app = express();
-const router = require("./router/auth-router");
+const authRouter = require("./router/auth-router");
 const connectDb = require("./utils/db");
 const errorMiddleware = require('./middleware/error-middleware');
+const contactRoute = require("./router/contact-router");
+
+
 
 //?Middleware
 app.use(express.json()); //parses incoming requests with JSON payloads
 
 // !Mount the Router : To use the router in your main Express app , you can "mount" it at a specific URL prefix
 
-app.use("/api/auth", router);
+app.use("/api/auth", authRouter);
+app.use("/api/form",contactRoute);
 
 // !below code is also a way to setup route but we are prefering the above method
 
