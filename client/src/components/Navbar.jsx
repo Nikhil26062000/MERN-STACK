@@ -3,7 +3,8 @@ import { Link, NavLink } from 'react-router-dom'; // Assuming you use React Rout
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between bg-gray-800 text-white p-4">
+    <div className="bg-gray-800">
+    <nav className="w-[90%] mx-auto flex items-center justify-between  text-white p-4">
       <div className="flex items-center">
         <NavLink to="/" className="flex items-center">
           
@@ -13,6 +14,9 @@ const Navbar = () => {
       <ul className="flex space-x-4">
         <li>
           <NavLink to="/" className="hover:text-gray-300">Home</NavLink>
+        </li>
+        <li>
+          <NavLink to="/about" className="hover:text-gray-300">About</NavLink>
         </li>
         <li>
           <NavLink to="/contact" className="hover:text-gray-300">Contact</NavLink>
@@ -28,6 +32,7 @@ const Navbar = () => {
         </li>
       </ul>
     </nav>
+    </div>
   );
 };
 

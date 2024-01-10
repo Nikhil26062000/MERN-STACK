@@ -2,6 +2,7 @@
 
 
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,8 @@ const Register = () => {
     password: ''
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -19,14 +22,40 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Implement registration logic here, e.g., sending data to a server
     console.log(formData); // For demonstration, log the form data
+  
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register',{
+        method: 'POST',
+        headers: {
+          "Content-Type": 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      console.log(response);
+
+      if(response.ok){
+        setFormData({
+          username: '',
+          email: '',
+          phone: '',
+          password: ''
+        })
+        navigate('/login');
+      }
+    } catch (error) {
+      console.log("Error while connecting to server in registration page : " + error);
+    }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <>
+    <h1 className='text-3xl font-bold text-gray-700 text-center mt-[60px] mb-12'>REGISTRATION FORM</h1>
+    <div className="flex justify-center">
+     
       <form onSubmit={handleSubmit} className="w-full max-w-md bg-white shadow-md rounded px-8 pt-6 pb-8">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
@@ -98,6 +127,7 @@ const Register = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 
