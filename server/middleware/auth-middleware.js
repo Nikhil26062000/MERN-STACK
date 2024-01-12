@@ -30,7 +30,7 @@ const authMiddleware = async (req,res,next) => {
         console.log(userData);
         next();
     } catch (error) {
-        
+        console.log("error while verifying token in backend",error);
     }
 };
 

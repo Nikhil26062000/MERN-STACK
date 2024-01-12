@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import TechCards from "../components/TechCards";
+import { useAuth } from "../store/auth";
 
 const Home = () => {
+
+ const {user} = useAuth();
+
+
+
   return (
     <>
       <div className="container mx-auto mt-10 ">
         {/* Header */}
         <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold">Welcome to Our Website</h1>
+          <h1 className="text-4xl font-bold">Welcome {user?`${user.username}`:`to our website`} </h1>
           <p className="text-lg text-gray-600">
             Your go-to place for amazing stuff!
           </p>

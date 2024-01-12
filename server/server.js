@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require("express");
 const app = express();
 const authRouter = require("./router/auth-router");
+const serviceRoute = require("./router/service-router");
 const connectDb = require("./utils/db");
 const errorMiddleware = require('./middleware/error-middleware');
 const contactRoute = require("./router/contact-router");
@@ -23,6 +24,7 @@ app.use(express.json()); //parses incoming requests with JSON payloads
 
 app.use("/api/auth", authRouter);
 app.use("/api/form",contactRoute);
+app.use("/api/data",serviceRoute);
 
 // !below code is also a way to setup route but we are prefering the above method
 

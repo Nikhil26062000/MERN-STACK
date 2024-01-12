@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuth } from '../store/auth';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -6,6 +7,19 @@ const Contact = () => {
     email: '',
     message: '',
   });
+
+  const [userData,setUserData] = useState(true);
+  const {user} = useAuth();
+
+  if(userData && user){
+    setFormData({
+      username: user.username,
+      email: user.email,
+      message: '',
+    })
+
+    setUserData(false);
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,11 +29,34 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission with formData
     console.log(formData); // For example: log the form data
     // You can perform further actions here (e.g., send data to a backend)
+    try {
+      
+    const response = await fetch('http://localhost:5000/api/form/contact',{
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify(formData)
+    })
+
+    if(response.ok){
+      alert("Message send successfully");
+      setFormData({
+        username: user.username,
+      email: user.email,
+      message: '',
+      })
+      console.log("Message sent succesfully");
+
+    }
+    } catch (error) {
+      console.log("error while submiting message",error);
+    }
   };
 
   return (
