@@ -71,7 +71,7 @@ userSchema.methods.generateToken = async function(){
 
 // comparing password at time of login
 userSchema.methods.comparePassword = async function(password) {
-    console.log("comparing password at time of login",this);
+    // console.log("comparing password at time of login",this);
     return await bcrypt.compare(password,this.password);
 }
 

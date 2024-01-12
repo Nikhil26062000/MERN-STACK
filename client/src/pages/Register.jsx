@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const Register = () => {
   });
 
   const navigate = useNavigate();
+  const {storeTokenInLocalStorage} = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,6 +37,12 @@ const Register = () => {
       console.log(response);
 
       if (response.ok) {
+
+        //getting token of user who register 
+        const responseData = await response.json();
+        //storing data in local storage using useContext hook
+        storeTokenInLocalStorage(responseData.token);
+
         setFormData({
           username: "",
           email: "",
