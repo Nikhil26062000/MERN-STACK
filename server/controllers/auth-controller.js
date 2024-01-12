@@ -1,6 +1,7 @@
 const User = require("../models/user-model");
 const bcrypt = require("bcryptjs");
 
+
 // ?Controllers for Home Page
 //?-------------------------------------------------
 
@@ -101,4 +102,19 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { Home, Register, login };
+
+//? User Logic
+//?-------------------------------
+
+const user = async (req, res) => {
+    try {
+      const userData = req.user;
+      // console.log(userData);
+      return res.status(200).json({msg:userData});
+
+     // res.status(200).json({msg:'hello user'});
+    } catch (error) {
+      console.log("error from user route while fetching user info agter login",error);
+    }
+}
+module.exports = { Home, Register, login, user };
