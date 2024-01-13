@@ -8,6 +8,7 @@ const connectDb = require("./utils/db");
 const errorMiddleware = require('./middleware/error-middleware');
 const contactRoute = require("./router/contact-router");
 const cors = require("cors");
+const adminRoute = require("./router/admin-router");
 
 //? Middleware for cors and adding options for cors
 const corsOptions = {
@@ -25,6 +26,7 @@ app.use(express.json()); //parses incoming requests with JSON payloads
 app.use("/api/auth", authRouter);
 app.use("/api/form",contactRoute);
 app.use("/api/data",serviceRoute);
+app.use("/api/admin",adminRoute);
 
 // !below code is also a way to setup route but we are prefering the above method
 
