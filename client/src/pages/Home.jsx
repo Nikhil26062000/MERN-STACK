@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import TechCards from "../components/TechCards";
 import { useAuth } from "../store/auth";
+import { motion } from 'framer-motion';
 
 const Home = () => {
 
@@ -14,15 +15,36 @@ const Home = () => {
       <div className="container mx-auto mt-10 ">
         {/* Header */}
         <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold">Welcome {user?`${user.username}`:`to our website`} </h1>
+
+        <motion.h1
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 2 }}
+      
+      className="text-4xl font-bold text-blue-500"
+    >
+    Welcome {user?`${user.username}`:`to our website`}
+    </motion.h1>
+
+
+
+          <h1 className="text-4xl font-bold"> </h1>
           <p className="text-lg text-gray-600">
             Your go-to place for amazing stuff!
           </p>
         </header>
 
         {/* About MERN */}
+       
+
+        <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+       
+      >
         <section className="bg-gray-200 w-[90%] py-16 my-10 px-5 rounded-lg mx-auto">
-          <div className="container mx-auto ">
+        <div className="container mx-auto ">
             <h2 className="text-3xl font-bold text-center mb-8">
               MERN Stack Development
             </h2>
@@ -60,14 +82,41 @@ const Home = () => {
             </div>
           </div>
         </section>
+      </motion.div>
+
+
+
+
+
+
+          
 
         {/* Cards section */}
-        <section className="w-[90%] mx-auto">
+
+
+        <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 5 }}
+        className="box"
+      >
+         <section className="w-[90%] mx-auto">
           <TechCards />
         </section>
+      </motion.div>
+
+       
 
         {/* About and Product */}
-        <section className="grid grid-cols-1 gap-6 w-[90%] mx-auto md:grid-cols-2">
+
+
+        <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="box"
+      >
+         <section className="grid grid-cols-1 gap-6 w-[90%] mx-auto md:grid-cols-2">
           <section className="bg-gray-100 p-6 rounded shadow">
             <h2 className="text-xl font-semibold mb-4">About Us</h2>
             <p>Learn about our company and our mission.</p>
@@ -90,6 +139,8 @@ const Home = () => {
             </NavLink>
           </section>
         </section>
+      </motion.div>
+       
 
         {/* Footer */}
         <footer className="mt-10 text-center text-gray-500">

@@ -11,7 +11,7 @@ const services = async (req,res) => {
         }
 
     
-       return res.status(201).json({message: "Services retrieved successfully", response})
+       return res.status(201).json(response);
         
     } catch (error) {
       return res.status(500).json({errorMsg:error})
