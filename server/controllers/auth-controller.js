@@ -30,7 +30,7 @@ const Register = async (req, res) => {
     //if present then returning via if() condition
     const existingUser = await User.findOne({ email: email });
     if (existingUser) {
-      return res.status(400).json("User already exist");
+      return res.status(400).json({message:'email already exist'});
     }
 
     /*
@@ -59,7 +59,7 @@ const Register = async (req, res) => {
       });
     console.log({ token: await userCreated.generateToken() });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({message: error.message});
   }
 };
 
@@ -73,7 +73,7 @@ const login = async (req, res) => {
     const userExist = await User.findOne({ email });
 
     if (!userExist) {
-      return res.status(400).send("Invalid Credentials");
+      return res.status(400).send({message:"User not exist. Register now ."});
     }
 
     //? i made a function in user-model and there i compare the password.i can directly compare here also using compare()
@@ -92,13 +92,13 @@ const login = async (req, res) => {
       });
     } else {
       res.status(401).json({
-        message: "Invalid Cred",
+        message: "Invalid Credentials",
       });
 
     
     }
   } catch (error) {
-    res.status(500).json("Internal server error");
+    res.status(500).json({message:"Internal server error Check your credentials"});
   }
 };
 

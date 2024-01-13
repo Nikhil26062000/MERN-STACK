@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../store/auth';
 import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -36,6 +37,9 @@ const Contact = () => {
     console.log(formData); // For example: log the form data
     // You can perform further actions here (e.g., send data to a backend)
     try {
+      if(formData.message=="") {
+        return toast.error("Message is empty 👎");
+      }
       
     const response = await fetch('http://localhost:5000/api/form/contact',{
       method: 'POST',
@@ -46,17 +50,19 @@ const Contact = () => {
     })
 
     if(response.ok){
-      alert("Message send successfully");
+      // alert("Message send successfully");
       setFormData({
         username: user.username,
       email: user.email,
       message: '',
       })
-      console.log("Message sent succesfully");
+      // console.log("Message sent succesfully");
+      toast.success("Message sent successfully");
 
     }
     } catch (error) {
       console.log("error while submiting message",error);
+      toast.error("Something went wrong");
     }
   };
 

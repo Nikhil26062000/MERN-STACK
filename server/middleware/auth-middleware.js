@@ -7,7 +7,7 @@ const authMiddleware = async (req,res,next) => {
     const token=req.header('Authorization');
 
     if(!token){
-        return res.status(401).send({error: 'No token provided.'});
+        return res.status(401).send({message: 'No token provided.'});
     }
 
     //remove bearer from start
@@ -31,6 +31,7 @@ const authMiddleware = async (req,res,next) => {
         next();
     } catch (error) {
         console.log("error while verifying token in backend",error);
+        return res.status(403).send({message:'Invalid Token'});
     }
 };
 
