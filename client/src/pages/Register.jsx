@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
+import {  toast } from 'react-toastify';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,8 @@ const Register = () => {
     phone: "",
     password: "",
   });
+
+  const [errMsg,setErrMsg] = useState();
 
   const navigate = useNavigate();
   const {storeTokenInLocalStorage} = useAuth();
@@ -35,11 +38,13 @@ const Register = () => {
         body: JSON.stringify(formData),
       });
       console.log(response);
+      const responseData = await response.json();
+      
 
       if (response.ok) {
 
         //getting token of user who register 
-        const responseData = await response.json();
+       
         //storing data in local storage using useContext hook
         storeTokenInLocalStorage(responseData.token);
 
@@ -49,12 +54,19 @@ const Register = () => {
           phone: "",
           password: "",
         });
-        navigate("/login");
+        toast.success("Registration successful");
+        navigate("/");
+      }else{
+        // alert(responseData.message?responseData.message:responseData.extraDetails);
+        // console.log(responseData.message?responseData.message:responseData.extraDetails);
+        setErrMsg(responseData.message);
+        toast.error(responseData.message);
       }
     } catch (error) {
       console.log(
         "Error while connecting to server in registration page : " + error
       );
+      toast.error(error.message);
     }
   };
 
@@ -130,7 +142,7 @@ const Register = () => {
               Password
             </label>
             <input
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700  leading-tight focus:outline-none focus:shadow-outline"
               id="password"
               type="password"
               name="password"
@@ -140,6 +152,7 @@ const Register = () => {
               required
             />
           </div>
+          {/* <p className="text-red-600 text-xs pb-4">{errMsg?errMsg:""}</p> */}
           <div className="flex items-center justify-between">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

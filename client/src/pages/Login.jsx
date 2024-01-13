@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {useAuth} from "../store/auth";
+import { motion } from 'framer-motion';
+import {  toast } from 'react-toastify';
 
 const Login = () => {
   const {storeTokenInLocalStorage,isLoggedIn} = useAuth();
+  const [errMsg,setErrMsg] = useState();
 
 
   const [formData, setFormData] = useState({
@@ -34,10 +37,11 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
       console.log(response);
+      const responseData = await response.json();
       
       if (response.ok) {
         console.log("Login successful via database");
-        const responseData = await response.json();
+      
         console.log("Fetching token of login user from database",responseData.token);
         storeTokenInLocalStorage(responseData.token);
        // console.log("tokenStored and value of islogedIn is :",isloggedIn);
@@ -45,10 +49,17 @@ const Login = () => {
           email:"",
           password:"",
         })
+        toast.success("Login Successful");
         navigate("/");
       }
+      else{
+        setErrMsg(responseData.message);
+        toast.error(responseData.message);
+      }
     } catch (error) {
-      console.log("Error while login to database", error);
+      console.log({message: error.message});
+      setErrMsg(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -99,6 +110,10 @@ const Login = () => {
                 required
               />
             </div>
+         
+       {/* <p   className="text-red-600 text-xs pb-4"> {errMsg?errMsg:""}</p> */}
+    
+            
             <div className="flex items-center justify-between">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

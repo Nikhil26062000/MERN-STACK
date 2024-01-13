@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../store/auth';
+import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -35,6 +37,9 @@ const Contact = () => {
     console.log(formData); // For example: log the form data
     // You can perform further actions here (e.g., send data to a backend)
     try {
+      if(formData.message=="") {
+        return toast.error("Message is empty 👎");
+      }
       
     const response = await fetch('http://localhost:5000/api/form/contact',{
       method: 'POST',
@@ -45,24 +50,33 @@ const Contact = () => {
     })
 
     if(response.ok){
-      alert("Message send successfully");
+      // alert("Message send successfully");
       setFormData({
         username: user.username,
       email: user.email,
       message: '',
       })
-      console.log("Message sent succesfully");
+      // console.log("Message sent succesfully");
+      toast.success("Message sent successfully");
 
     }
     } catch (error) {
       console.log("error while submiting message",error);
+      toast.error("Something went wrong");
     }
   };
 
   return (
     <div className="w-11/12 md:w-9/12 lg:w-8/12 xl:w-7/12 mx-auto py-8">
       <h2 className="text-3xl font-bold text-center mb-8">Contact Us</h2>
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8" onSubmit={handleSubmit}>
+
+      <motion.div
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 0.5 }}
+      className="box"
+    >
+       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
             Username
@@ -113,6 +127,8 @@ const Contact = () => {
           </button>
         </div>
       </form>
+    </motion.div>
+   
     </div>
   );
 };
