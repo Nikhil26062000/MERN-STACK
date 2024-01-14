@@ -34,6 +34,9 @@ export const AuthProvider = ({children}) => {
                 console.log(data.userData);
                 setUser(data.userData);
             }
+            else{
+                console.log("Error because user is yet to login");
+            }
         } catch (error) {
             console.log("Error while fetching user data from backend",error);
         }

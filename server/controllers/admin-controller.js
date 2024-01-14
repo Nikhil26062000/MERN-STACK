@@ -18,6 +18,28 @@ const adminUser = async (req,res) =>{
     
 }
 
+
+const adminGetUserById =async (req,res) =>{
+    try {
+        const id = req.params.id;
+        const data = await User.findOne({_id : id},{password:0})
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.status(500).json({message:"Something went wrong"});
+    }
+}
+
+
+const deleteUserInDatabase =async (req,res) =>{
+    try {
+        const id = req.params.id;
+        await User.deleteOne({_id : id});
+        return res.status(200).json({message:' User Deleted Successfully'});
+    } catch (error) {
+        return res.status(500).json({message:"Something went wrong"});
+    }
+}
+
 const adminContact = async (req,res) => {
     try {
         const userContactData = await Contact.find();
@@ -31,4 +53,4 @@ const adminContact = async (req,res) => {
     }
 }
 
-module.exports= {adminUser,adminContact};
+module.exports= {adminUser,adminContact,deleteUserInDatabase,adminGetUserById};
