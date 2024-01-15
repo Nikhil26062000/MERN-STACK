@@ -10,6 +10,10 @@ import Services from "./pages/Services";
 import Navbar from "./components/Navbar";
 import Error from "./pages/Error";
 import Logout from "./pages/Logout";
+import AdminLayout from "./components/layouts/Admin-Layout";
+import AdminUsers from "./pages/Admin-Users";
+import AdminContact from "./pages/Admin-Contact";
+import AdminEditUserForm from "./pages/AdminEditUserForm";
 
 const App = () => {
   return (
@@ -25,6 +29,11 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="*" element={<Error />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="contacts" element={<AdminContact />} />
+            <Route path="/admin/users/:id/edit" element={<AdminEditUserForm/>} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
