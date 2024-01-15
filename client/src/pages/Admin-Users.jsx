@@ -55,7 +55,7 @@ const AdminUsers = () => {
         getAllUsers();
     },[])
     return (
-    <div className="w-[80%] mx-auto grid grid-cols-4 max-sm:grid-cols-1 max-md:grid-cols-2 max-lg:grid-cols-3 gap-10">
+    <div className="w-[80%] mx-auto grid grid-cols-1 ">
     
 
       {users &&
@@ -66,8 +66,8 @@ const AdminUsers = () => {
             <div className="  p-2 flex"><span className="font-bold text-blue-500 text-sm px-2">PHONE : </span>{item.phone}</div>
             <div className=" p-2"><span className="font-bold text-blue-500 text-sm px-2">ADMIN : </span> {item.isAdmin ? 'YES' : 'NO'}</div>
             <div className="flex mx-3 mb-2 gap-2">
-              <button className=" bg-green-300 text-white px-5 py-2 rounded-md"><Link to={`/admin/users/${item._id}/edit`}>Edit</Link></button>
-              <button className=" bg-red-300 text-white px-5 py-2 rounded-md" onClick={() =>deleteUser(item._id)}>Delete</button>
+              <button className=" bg-green-300 text-white px-5 py-2 rounded-md hover:bg-green-600"><Link to={`/admin/users/${item._id}/edit`}>Edit</Link></button>
+              <button className=" bg-red-300 text-white px-5 py-2 rounded-md  hover:bg-red-600" onClick={() =>deleteUser(item._id)}>Delete</button>
             </div>
           </div>
         ))}
